@@ -119,6 +119,64 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &392946012 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114516425935054028, guid: 2e7a0cc9f9e9ef44c9fd42e454137e80, type: 3}
+  m_PrefabInstance: {fileID: 1417920153}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d633f088f0e3bdb41a25fa2a3312eb76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &488443949
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 488443951}
+  - component: {fileID: 488443950}
+  m_Layer: 0
+  m_Name: Output
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &488443950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488443949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f01b16081d85f67419ca230d1d593e0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  winSound: {fileID: 8300000, guid: 1a1f66a2481cc4201b08ee51f23b9104, type: 3}
+  turnText: {fileID: 947445215}
+  winText: {fileID: 2098523330}
+--- !u!4 &488443951
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488443949}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 345.3912, y: 255.24661, z: 24.488476}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,7 +1058,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: d1be8897492ee854b9a05f5371d103ce, type: 3}
   m_Resource: {fileID: 8300000, guid: d1be8897492ee854b9a05f5371d103ce, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.2
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1108,6 +1166,22 @@ PrefabInstance:
       propertyPath: winSound
       value: 
       objectReference: {fileID: 8300000, guid: 1a1f66a2481cc4201b08ee51f23b9104, type: 3}
+    - target: {fileID: 114283005606547992, guid: 54ca9e7c26a99fa44a35d35c9357f73d, type: 3}
+      propertyPath: infoOutput
+      value: 
+      objectReference: {fileID: 488443950}
+    - target: {fileID: 114283005606547992, guid: 54ca9e7c26a99fa44a35d35c9357f73d, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 392946012}
+    - target: {fileID: 114283005606547992, guid: 54ca9e7c26a99fa44a35d35c9357f73d, type: 3}
+      propertyPath: mBlackPiece.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114283005606547992, guid: 54ca9e7c26a99fa44a35d35c9357f73d, type: 3}
+      propertyPath: mWhitePiece.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 224387480397115876, guid: 54ca9e7c26a99fa44a35d35c9357f73d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1248,7 +1322,7 @@ GameObject:
   - component: {fileID: 1161024310}
   - component: {fileID: 1161024309}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: ButtonControl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1472,6 +1546,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PR_GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1341780852986344, guid: 2e7a0cc9f9e9ef44c9fd42e454137e80, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4595716538472080, guid: 2e7a0cc9f9e9ef44c9fd42e454137e80, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1516,6 +1594,10 @@ PrefabInstance:
       propertyPath: mBoard
       value: 
       objectReference: {fileID: 1138681780}
+    - target: {fileID: 114516425935054028, guid: 2e7a0cc9f9e9ef44c9fd42e454137e80, type: 3}
+      propertyPath: infoOutput
+      value: 
+      objectReference: {fileID: 488443950}
     - target: {fileID: 114516425935054028, guid: 2e7a0cc9f9e9ef44c9fd42e454137e80, type: 3}
       propertyPath: mPieceManager
       value: 
@@ -1806,3 +1888,4 @@ SceneRoots:
   - {fileID: 1232739498}
   - {fileID: 1417920153}
   - {fileID: 1161024310}
+  - {fileID: 488443951}

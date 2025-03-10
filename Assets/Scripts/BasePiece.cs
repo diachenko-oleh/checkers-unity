@@ -8,8 +8,8 @@ using UnityEngine.Rendering;
 
 public abstract class BasePiece : EventTrigger
 {
-
-    private static int blackCount = 12, whiteCount = 12;
+    public GameManager gameManager;
+    private static int blackCount = 2, whiteCount = 2;
     [HideInInspector]
     public Color mColor = Color.clear;
 
@@ -30,7 +30,6 @@ public abstract class BasePiece : EventTrigger
         GetComponent<Image>().color = newSpriteColor;
         mRectTransform = GetComponent<RectTransform>();
     }
-
     public void Place(Cell newCell)
     {
         mCurrentCell = newCell;
@@ -40,7 +39,6 @@ public abstract class BasePiece : EventTrigger
         transform.position = newCell.transform.position;
         gameObject.SetActive(true);
     }
-
     public void Reset()
     {
         Kill();
@@ -50,7 +48,7 @@ public abstract class BasePiece : EventTrigger
     {
         mCurrentCell.mCurrentPiece = null;
         gameObject.SetActive(false);
-        if (mColor==Color.black)
+        if (mColor == Color.black)
         {
             blackCount--;
         }
@@ -60,15 +58,15 @@ public abstract class BasePiece : EventTrigger
         }
         if (blackCount == 0)
         {
-            PieceManager.mIsAnyAlive = false;
-            PieceManager.mIsWhiteWin = true;
+            GameManager.mIsAnyAlive = false;
+            GameManager.mIsWhiteWin = true;
             blackCount = 12;
             whiteCount = 12;
         }
         else if (whiteCount == 0)
         {
-            PieceManager.mIsAnyAlive = false;
-            PieceManager.mIsWhiteWin = false;
+            GameManager.mIsAnyAlive = false;
+            GameManager.mIsWhiteWin = false;
             blackCount = 12;
             whiteCount = 12;
         }
@@ -105,7 +103,7 @@ public abstract class BasePiece : EventTrigger
                 break;
             }
 
-            if (cellState!=CellState.Free)
+            if (cellState != CellState.Free)
             {
                 break;
             }
@@ -113,11 +111,10 @@ public abstract class BasePiece : EventTrigger
             mHilightedCells.Add(mCurrentCell.mBoard.mAllCells[currentX, currentY]);
         }
     }
-
     protected virtual void CheckPathing(Color teamColor)
     {
         CreateCellPath(-1, -1, mMovement.z);        //діагональ вниз
-        CreateCellPath(1, -1, mMovement.z);   
+        CreateCellPath(1, -1, mMovement.z);
 
         CreateCellPath(1, 1, mMovement.z);          //діагональ вгору
         CreateCellPath(-1, 1, mMovement.z);
@@ -137,7 +134,6 @@ public abstract class BasePiece : EventTrigger
         }
         mHilightedCells.Clear();
     }
-
     protected virtual void Move()
     {
         if (mTargetCell.mCapturedPiece != null)
@@ -162,7 +158,6 @@ public abstract class BasePiece : EventTrigger
         CheckPathing(mColor);
         ShowCells();
     }
-
     public override void OnDrag(PointerEventData eventData)
     {
         base.OnDrag(eventData);
@@ -171,7 +166,7 @@ public abstract class BasePiece : EventTrigger
 
         foreach (Cell cell in mHilightedCells)
         {
-            if (RectTransformUtility.RectangleContainsScreenPoint(cell.mRectTransform,Input.mousePosition))
+            if (RectTransformUtility.RectangleContainsScreenPoint(cell.mRectTransform, Input.mousePosition))
             {
                 mTargetCell = cell;
                 break;
@@ -180,12 +175,11 @@ public abstract class BasePiece : EventTrigger
             mTargetCell = null;
         }
     }
-
     public override void OnEndDrag(PointerEventData eventData)
     {
         base.OnEndDrag(eventData);
         ClearCells();
-
+        gameManager = FindObjectsByType<GameManager>(FindObjectsSortMode.None)[0];
         if (!mTargetCell)
         {
             transform.position = mCurrentCell.gameObject.transform.position;
@@ -193,6 +187,6 @@ public abstract class BasePiece : EventTrigger
         }
         Move();
 
-        mPieceManager.SwitchSides(mColor);
+        gameManager.SwitchSides(mColor);
     }
 }

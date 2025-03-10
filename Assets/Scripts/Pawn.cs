@@ -7,15 +7,19 @@ public class Pawn : BasePiece
     private bool isKing = false;
     private Sprite originalSprite;
 
+
+
     public override void Setup(Color newTeamColor, Color32 newSpriteColor, PieceManager newPieceManager)
     {
         base.Setup(newTeamColor, newSpriteColor, newPieceManager);
         isKing = false;
-         originalSprite = GetComponent<Image>().sprite;
+        originalSprite = GetComponent<Image>().sprite;
+
     }
 
     protected override void Move()
     {
+
         base.Move();
         if ((mColor == Color.white && mCurrentCell.mBoardPosition.y == 7) ||
             (mColor == Color.black && mCurrentCell.mBoardPosition.y == 0))
@@ -23,7 +27,6 @@ public class Pawn : BasePiece
             BecomeKing();
         }
     }
-
     private void BecomeKing()
     {
         isKing = true;

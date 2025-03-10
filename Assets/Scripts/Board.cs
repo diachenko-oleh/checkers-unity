@@ -17,7 +17,6 @@ public class Board : MonoBehaviour
 
     public void Create()
     {
-
         for (int y = 0; y < 8; y++)
         {
             for (int x = 0; x < 8; x++)
@@ -70,6 +69,5 @@ public class Board : MonoBehaviour
             }
         }
         return CellState.Free;
-
     }
 }
