@@ -3,31 +3,22 @@ using UnityEngine;
 
 public class PieceMove : MonoBehaviour
 {
-    private BasePiece mPiece;
-
-    protected Cell mCurrentCell;
-    protected Cell mTargetCell;
-
+    protected BasePiece mPiece;
     public Vector3Int mMovement = Vector3Int.one;
-    public List<Cell> mHilightedCells = new List<Cell>();
-    public void SetCell(Cell currentCell,Cell targetCell)
-    {
-        mCurrentCell = currentCell;
-        mTargetCell = targetCell;
-    }
-    public void SetPiece(BasePiece piece)
-    {
-        mPiece = piece;
-    }
-    public virtual void CheckPathing(Color teamColor)
-    {
-        CreateCellPath(-1, -1, mMovement.z);        //діагональ вниз
-        CreateCellPath(1, -1, mMovement.z);
 
-        CreateCellPath(1, 1, mMovement.z);          //діагональ вгору
-        CreateCellPath(-1, 1, mMovement.z);
+    public virtual void Initialize(BasePiece piece)
+    {
+        this.mPiece = piece;
     }
-    public void CreateCellPath(int xDirection, int yDirection, int movement)
+    public void CheckPathing(Color teamColor, Cell mCurrentCell, List<Cell> mHilightedCells)
+    {
+        CreateCellPath(-1, -1, mMovement.z,mCurrentCell,mHilightedCells);        //діагональ вниз
+        CreateCellPath(1, -1, mMovement.z, mCurrentCell, mHilightedCells);
+
+        CreateCellPath(1, 1, mMovement.z, mCurrentCell, mHilightedCells);          //діагональ вгору
+        CreateCellPath(-1, 1, mMovement.z, mCurrentCell, mHilightedCells);
+    }
+    public void CreateCellPath(int xDirection, int yDirection, int movement,Cell mCurrentCell, List<Cell> mHilightedCells)
     {
         int currentX = mCurrentCell.mBoardPosition.x;
         int currentY = mCurrentCell.mBoardPosition.y;
@@ -64,15 +55,14 @@ public class PieceMove : MonoBehaviour
             mHilightedCells.Add(mCurrentCell.mBoard.mAllCells[currentX, currentY]);
         }
     }
-
-    public void ShowCells()
+    public void ShowCells(List<Cell> mHilightedCells)
     {
         foreach (Cell cell in mHilightedCells)
         {
             cell.mOutlineImage.enabled = true;
         }
     }
-    public void ClearCells()
+    public void ClearCells(List<Cell> mHilightedCells)
     {
         foreach (Cell cell in mHilightedCells)
         {
@@ -80,7 +70,7 @@ public class PieceMove : MonoBehaviour
         }
         mHilightedCells.Clear();
     }
-    public virtual void Move()
+    public virtual void Move(Cell mCurrentCell, Cell mTargetCell)
     {
         if (mTargetCell.mCapturedPiece != null)
         {
@@ -88,11 +78,12 @@ public class PieceMove : MonoBehaviour
             mTargetCell.mCapturedPiece = null;
         }
 
-        mCurrentCell.mCurrentPiece = null;
-        mCurrentCell = mTargetCell;
-        mCurrentCell.mCurrentPiece = mPiece;
+        mPiece.mCurrentCell.mCurrentPiece = null;
+        mPiece.mCurrentCell = mTargetCell;
+        mPiece.mCurrentCell.mCurrentPiece = mPiece;
 
-        transform.position = mCurrentCell.transform.position;
-        mTargetCell = null;
+        mPiece.transform.position = mPiece.mCurrentCell.transform.position;
     }
+
+
 }

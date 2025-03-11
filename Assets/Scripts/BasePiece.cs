@@ -9,12 +9,12 @@ using UnityEngine.Rendering;
 public abstract class BasePiece : EventTrigger
 {
     public GameManager gameManager;
-    private static int blackCount = 2, whiteCount = 2;
+    private static int blackCount = 12, whiteCount = 12;
     [HideInInspector]
     public Color mColor = Color.clear;
 
-    protected Cell mOriginalCell = null;
-    protected Cell mCurrentCell = null;
+    public Cell mOriginalCell = null;
+    public Cell mCurrentCell = null;
 
     protected RectTransform mRectTransform = null;
     protected PieceManager mPieceManager;
@@ -23,6 +23,13 @@ public abstract class BasePiece : EventTrigger
     protected List<Cell> mHilightedCells = new List<Cell>();
 
     protected Cell mTargetCell = null;
+    protected PieceMove movement;
+
+    protected virtual void Awake()
+    {
+        movement = gameObject.AddComponent<PieceMove>();
+        movement.Initialize(this);
+    }
     public virtual void Setup(Color newTeamColor, Color32 newSpriteColor, PieceManager newPieceManager)
     {
         mPieceManager = newPieceManager;
@@ -56,101 +63,43 @@ public abstract class BasePiece : EventTrigger
         {
             whiteCount--;
         }
+
         if (blackCount == 0)
         {
-            GameManager.mIsAnyAlive = false;
-            GameManager.mIsWhiteWin = true;
+            gameManager.TeamWin(false,true);
             blackCount = 12;
             whiteCount = 12;
         }
         else if (whiteCount == 0)
         {
-            GameManager.mIsAnyAlive = false;
-            GameManager.mIsWhiteWin = false;
+            gameManager.TeamWin(false, false);
             blackCount = 12;
             whiteCount = 12;
         }
     }
 
-
-
-    protected void CreateCellPath(int xDirection, int yDirection, int movement)
+    #region Movement
+    protected void CreateCellPath(int xDirection, int yDirection, int moveDirecton)
     {
-        int currentX = mCurrentCell.mBoardPosition.x;
-        int currentY = mCurrentCell.mBoardPosition.y;
-
-        for (int i = 1; i <= movement; i++)
-        {
-            currentX += xDirection;
-            currentY += yDirection;
-
-            CellState cellState = CellState.None;
-            cellState = mCurrentCell.mBoard.ValidateCell(currentX, currentY, this);
-
-            if (cellState == CellState.Enemy)
-            {
-                int jumpX = currentX + xDirection;
-                int jumpY = currentY + yDirection;
-
-                if (mCurrentCell.mBoard.ValidateCell(jumpX, jumpY, this) == CellState.Free)
-                {
-                    Cell enemyCell = mCurrentCell.mBoard.mAllCells[currentX, currentY];
-                    Cell jumpCell = mCurrentCell.mBoard.mAllCells[jumpX, jumpY];
-
-                    jumpCell.mCapturedPiece = enemyCell.mCurrentPiece;
-                    mHilightedCells.Add(jumpCell);
-                }
-                break;
-            }
-
-            if (cellState != CellState.Free)
-            {
-                break;
-            }
-
-            mHilightedCells.Add(mCurrentCell.mBoard.mAllCells[currentX, currentY]);
-        }
+        movement.CreateCellPath(xDirection, yDirection, moveDirecton,mCurrentCell,mHilightedCells);
     }
     protected virtual void CheckPathing(Color teamColor)
     {
-        CreateCellPath(-1, -1, mMovement.z);        //діагональ вниз
-        CreateCellPath(1, -1, mMovement.z);
-
-        CreateCellPath(1, 1, mMovement.z);          //діагональ вгору
-        CreateCellPath(-1, 1, mMovement.z);
+        movement.CheckPathing(teamColor, mCurrentCell, mHilightedCells);
     }
     protected void ShowCells()
     {
-        foreach (Cell cell in mHilightedCells)
-        {
-            cell.mOutlineImage.enabled = true;
-        }
+        movement.ShowCells(mHilightedCells);
     }
     protected void ClearCells()
     {
-        foreach (Cell cell in mHilightedCells)
-        {
-            cell.mOutlineImage.enabled = false;
-        }
-        mHilightedCells.Clear();
+        movement.ClearCells(mHilightedCells);
     }
     protected virtual void Move()
     {
-        if (mTargetCell.mCapturedPiece != null)
-        {
-            mTargetCell.mCapturedPiece.Kill();
-            mTargetCell.mCapturedPiece = null;
-        }
-
-        mCurrentCell.mCurrentPiece = null;
-        mCurrentCell = mTargetCell;
-        mCurrentCell.mCurrentPiece = this;
-
-        transform.position = mCurrentCell.transform.position;
-        mTargetCell = null;
+        movement.Move(mCurrentCell,mTargetCell);
     }
-
-
+    #endregion
 
     public override void OnBeginDrag(PointerEventData eventData)
     {

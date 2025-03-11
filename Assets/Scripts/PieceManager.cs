@@ -19,7 +19,7 @@ public class PieceManager : MonoBehaviour
     public List<BasePiece> mWhitePiece = null;
     public List<BasePiece> mBlackPiece = null;
 
-    private int mPieceOrder = 12;
+    private int mPieceAmount = 12;
 
     public void Setup(Board board)
     {
@@ -34,7 +34,7 @@ public class PieceManager : MonoBehaviour
     private List<BasePiece> CreatePieces(Color teamColor,Color32 spriteColor,Board board)
     {
         List<BasePiece> newPieces = new List<BasePiece>();
-        for (int i = 0; i < mPieceOrder; i++)
+        for (int i = 0; i < mPieceAmount; i++)
         {
             GameObject newPieceObject = Instantiate(mPiecePrefab);
             newPieceObject.transform.SetParent(transform);

@@ -50,4 +50,10 @@ public class GameManager : MonoBehaviour
         mPieceManager.SetInteractive(mPieceManager.mWhitePiece, !IsBlackTurn);
         mPieceManager.SetInteractive(mPieceManager.mBlackPiece, IsBlackTurn);
     }
+
+    public void TeamWin(bool isAnyAlive,bool isWhiteWin)
+    {
+        mIsAnyAlive = isAnyAlive;
+        mIsWhiteWin = isWhiteWin;
+    }
 }
