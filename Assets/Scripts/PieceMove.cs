@@ -12,10 +12,10 @@ public class PieceMove : MonoBehaviour
     }
     public void CheckPathing(Color teamColor, Cell mCurrentCell, List<Cell> mHilightedCells)
     {
-        CreateCellPath(-1, -1, mMovement.z,mCurrentCell,mHilightedCells);        //діагональ вниз
+        CreateCellPath(-1, -1, mMovement.z,mCurrentCell,mHilightedCells);        
         CreateCellPath(1, -1, mMovement.z, mCurrentCell, mHilightedCells);
 
-        CreateCellPath(1, 1, mMovement.z, mCurrentCell, mHilightedCells);          //діагональ вгору
+        CreateCellPath(1, 1, mMovement.z, mCurrentCell, mHilightedCells);          
         CreateCellPath(-1, 1, mMovement.z, mCurrentCell, mHilightedCells);
     }
     public void CreateCellPath(int xDirection, int yDirection, int movement,Cell mCurrentCell, List<Cell> mHilightedCells)
@@ -84,6 +84,4 @@ public class PieceMove : MonoBehaviour
 
         mPiece.transform.position = mPiece.mCurrentCell.transform.position;
     }
-
-
 }

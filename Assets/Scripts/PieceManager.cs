@@ -9,11 +9,8 @@ using UnityEngine.Audio;
 
 public class PieceManager : MonoBehaviour
 {
-
     public GameManager gameManager;
     [HideInInspector]
-
-
     public GameObject mPiecePrefab;
 
     public List<BasePiece> mWhitePiece = null;
@@ -53,7 +50,6 @@ public class PieceManager : MonoBehaviour
     }
     private void PlacePieces(int startRow,List<BasePiece> pieces, Board board)
     {
-
         int index = 0;
         for (int i = startRow; i < startRow+3; i++)
         {

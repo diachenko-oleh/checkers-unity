@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }        //singleton
+
     public Board mBoard;
     public PieceManager mPieceManager;
 
@@ -9,6 +11,19 @@ public class GameManager : MonoBehaviour
 
     public static bool mIsAnyAlive = true;
     public static bool mIsWhiteWin;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         mBoard.Create();

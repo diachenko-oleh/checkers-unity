@@ -27,9 +27,14 @@ public abstract class BasePiece : EventTrigger
 
     protected virtual void Awake()
     {
-        movement = gameObject.AddComponent<PieceMove>();
+        movement = GetComponent<PieceMove>();
+        if (movement == null)
+        {
+            movement = gameObject.AddComponent<PieceMove>();
+        }
         movement.Initialize(this);
     }
+
     public virtual void Setup(Color newTeamColor, Color32 newSpriteColor, PieceManager newPieceManager)
     {
         mPieceManager = newPieceManager;
@@ -136,6 +141,6 @@ public abstract class BasePiece : EventTrigger
         }
         Move();
 
-        gameManager.SwitchSides(mColor);
+        GameManager.Instance.SwitchSides(mColor);
     }
 }

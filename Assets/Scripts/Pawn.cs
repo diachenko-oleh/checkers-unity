@@ -51,7 +51,6 @@ public class Pawn : BasePiece
     }
     public static void RevertKingsToPawns(List<BasePiece> allPawns)
     {
-
         foreach (Pawn pawn in allPawns)
         {
             if (pawn.isKing)
